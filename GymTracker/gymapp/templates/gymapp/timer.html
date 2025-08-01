@@ -1,0 +1,58 @@
+{% extends 'gymapp/base.html' %}
+
+{% block title %}Timer - Gym Tracker Pro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>⏱️ Workout Timer</h1>
+        <p>Time your workouts and stay focused.</p>
+    </div>
+
+    <div class="timer-container">
+        <div class="glass-container">
+            <div class="timer-display">
+                <div class="timer-circle">
+                    <div class="timer-time" id="timerDisplay">00:00</div>
+                    <div class="timer-label">Minutes</div>
+                </div>
+            </div>
+            
+            <div class="timer-controls">
+                <button class="timer-btn start" id="startBtn" onclick="startTimer()">
+                    <i class="fas fa-play"></i> Start
+                </button>
+                <button class="timer-btn pause" id="pauseBtn" onclick="pauseTimer()" style="display: none;">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button class="timer-btn stop" onclick="stopTimer()">
+                    <i class="fas fa-stop"></i> Stop
+                </button>
+                <button class="timer-btn reset" onclick="resetTimer()">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+
+            <div class="timer-presets">
+                <h3>⚡ Quick Timers</h3>
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="setTimer(300)"><span>5 min</span></button>
+                    <button class="preset-btn" onclick="setTimer(600)"><span>10 min</span></button>
+                    <button class="preset-btn" onclick="setTimer(900)"><span>15 min</span></button>
+                    <button class="preset-btn" onclick="setTimer(1800)"><span>30 min</span></button>
+                    <button class="preset-btn" onclick="setTimer(2700)"><span>45 min</span></button>
+                    <button class="preset-btn" onclick="setTimer(3600)"><span>60 min</span></button>
+                </div>
+            </div>
+
+            <div class="custom-timer">
+                <h3>Custom Timer</h3>
+                <div class="custom-inputs">
+                    <input type="number" id="customMinutes" placeholder="Minutes" min="1" max="120">
+                    <button class="btn-secondary" onclick="setCustomTimer()">Set Timer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

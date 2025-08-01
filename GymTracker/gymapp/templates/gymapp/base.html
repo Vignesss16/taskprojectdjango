@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}🏋️ Gym Tracker Pro{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'gymapp/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1 class="nav-title">
+                    🏋️‍♂️ <span class="gradient-text">Gym Tracker Pro</span>
+                </h1>    
+            </div>
+            <div class="nav-center">
+                <div class="nav-links">
+                    <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                        📊 Dashboard
+                    </a>
+                    <a href="{% url 'add_workout' %}" class="nav-link {% if request.resolver_match.url_name == 'add_workout' %}active{% endif %}">
+                        ➕ Add Workout
+                    </a>
+                    <a href="{% url 'analytics' %}" class="nav-link {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+                        📈 Analytics
+                    </a>
+                    <a href="{% url 'achievements' %}" class="nav-link {% if request.resolver_match.url_name == 'achievements' %}active{% endif %}">
+                        🏆 Achievements
+                    </a>
+                    <a href="{% url 'timer' %}" class="nav-link {% if request.resolver_match.url_name == 'timer' %}active{% endif %}">
+                        ⏱️ Timer
+                    </a>
+                </div>
+            </div>
+            <div class="nav-end">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 Gym Tracker Pro | Keep Pushing 💥</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'gymapp/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

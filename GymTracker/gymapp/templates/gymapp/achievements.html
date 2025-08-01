@@ -1,0 +1,59 @@
+{% extends 'gymapp/base.html' %}
+
+{% block title %}Achievements - Gym Tracker Pro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>🏆 Your Achievements</h1>
+        <p>Track your fitness milestones and celebrate your progress!</p>
+    </div>
+
+    {% if earned_achievements %}
+    <div class="glass-container">
+        <h3>🎉 Earned Achievements</h3>
+        <div class="achievements-grid">
+            {% for achievement in earned_achievements %}
+            <div class="achievement-card earned">
+                <div class="achievement-icon">{{ achievement.icon }}</div>
+                <div class="achievement-info">
+                    <div class="achievement-name">{{ achievement.name }}</div>
+                    <div class="achievement-desc">{{ achievement.description }}</div>
+                    <div class="achievement-date">Earned: {{ achievement.date_earned|date:"M d, Y" }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if available_achievements %}
+    <div class="glass-container">
+        <h3>🎯 Available Achievements</h3>
+        <div class="achievements-grid">
+            {% for achievement in available_achievements %}
+            <div class="achievement-card available">
+                <div class="achievement-icon">{{ achievement.icon }}</div>
+                <div class="achievement-info">
+                    <div class="achievement-name">{{ achievement.name }}</div>
+                    <div class="achievement-desc">{{ achievement.description }}</div>
+                    <div class="achievement-requirement">Goal: {{ achievement.requirement_value }} {{ achievement.get_requirement_type_display }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if not earned_achievements and not available_achievements %}
+    <div class="glass-container">
+        <div class="empty-state">
+            <div class="empty-icon">🏆</div>
+            <h3>No achievements yet!</h3>
+            <p>Start working out to unlock achievements and track your progress.</p>
+            <a href="{% url 'add_workout' %}" class="btn-primary">Add Your First Workout</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

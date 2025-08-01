@@ -1,0 +1,196 @@
+{% extends 'gymapp/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Gym Tracker Pro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>📊 Dashboard</h1>
+        <p>Welcome back! Here's your fitness overview.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ today_calories }}</div>
+                <div class="stat-label">Today's Calories</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ daily_minutes }}/{{ daily_goal }}</div>
+                <div class="stat-label">Today's Minutes</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ streak }}</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">💪</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ total_workouts }}</div>
+                <div class="stat-label">Total Workouts</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-grid">
+        <!-- Progress Chart -->
+        <div class="glass-container chart-section">
+            <h3>📈 Weekly Progress</h3>
+            <div class="chart-wrapper">
+                <canvas id="progressChart"></canvas>
+            </div>
+            <div class="progress-summary">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ daily_progress_percentage }}%"></div>
+                </div>
+                <p class="progress-text">{{ daily_progress_percentage|floatformat:0 }}% of daily goal completed</p>
+            </div>
+        </div>
+
+        <!-- Recent Workouts -->
+        <div class="glass-container">
+            <h3>📝 Recent Workouts</h3>
+            <div class="workout-list">
+                {% for workout in workouts %}
+                <div class="workout-item">
+                    <div class="workout-header">
+                        <div class="workout-icon">💪</div>
+                        <div class="workout-name">{{ workout.workout_name }}</div>
+                        <div class="workout-calories">🔥 {{ workout.calories_burned }}</div>
+                    </div>
+                    <div class="workout-details">
+                        <span>{{ workout.date|date:"M d, Y" }}</span>
+                        <span class="separator">•</span>
+                        <span>{{ workout.reps }} reps</span>
+                        <span class="separator">•</span>
+                        <span>{{ workout.duration_minutes }} min</span>
+                        <span class="intensity-badge {{ workout.intensity|lower }}">{{ workout.intensity }}</span>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <div class="empty-icon">🏃‍♂️</div>
+                    <p>No workouts yet. <a href="{% url 'add_workout' %}">Add your first workout!</a></p>
+                </div>
+                {% endfor %}
+            </div>
+            {% if workouts %}
+            <div class="view-all-link">
+                <a href="{% url 'analytics' %}">View All Workouts →</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Recent Achievements -->
+        <div class="glass-container">
+            <h3>🏆 Recent Achievements</h3>
+            <div class="achievements-list">
+                {% for achievement in recent_achievements %}
+                <div class="achievement-item">
+                    <div class="achievement-icon">{{ achievement.icon }}</div>
+                    <div class="achievement-info">
+                        <div class="achievement-name">{{ achievement.name }}</div>
+                        <div class="achievement-date">{{ achievement.date_earned|date:"M d" }}</div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state small">
+                    <p>🎯 Complete workouts to earn achievements!</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% if recent_achievements %}
+            <div class="view-all-link">
+                <a href="{% url 'achievements' %}">View All Achievements →</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ chart_labels|json_script:"chart-labels" }}
+{{ chart_data|json_script:"chart-data" }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chartLabels = JSON.parse(document.getElementById('chart-labels').textContent);
+    const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+    
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Minutes Worked Out',
+                data: chartData,
+                backgroundColor: 'rgba(64, 123, 255, 0.8)',
+                borderColor: 'rgba(64, 123, 255, 1)',
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: 'rgba(64, 123, 255, 1)',
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

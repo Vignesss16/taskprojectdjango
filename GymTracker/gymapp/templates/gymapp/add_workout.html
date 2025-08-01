@@ -1,0 +1,85 @@
+{% extends 'gymapp/base.html' %}
+
+{% block title %}Add Workout - Gym Tracker Pro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>➕ Add New Workout</h1>
+        <p>Track your fitness progress by adding a new workout session.</p>
+    </div>
+
+    <div class="form-container">
+        <div class="glass-container">
+            <form method="POST" class="workout-form">
+                {% csrf_token %}
+                <div class="form-grid">
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="field-errors">
+                                {% for error in field.errors %}
+                                    <span class="error">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Workout
+                </button>
+            </form>
+        </div>
+
+        <!-- Quick Add Section -->
+        <div class="glass-container">
+            <h3>⚡ Quick Add Workouts</h3>
+            <div class="quick-buttons">
+                <button class="quick-btn" onclick="quickAdd('Push-ups', 20, 10, 50, 'Chest', 'Medium')">
+                    💪 Push-ups
+                </button>
+                <button class="quick-btn" onclick="quickAdd('Squats', 25, 15, 75, 'Legs', 'Medium')">
+                    🦵 Squats
+                </button>
+                <button class="quick-btn" onclick="quickAdd('Running', 1, 30, 300, 'Cardio', 'High')">
+                    🏃‍♂️ Running
+                </button>
+                <button class="quick-btn" onclick="quickAdd('Plank', 3, 5, 25, 'Core', 'Medium')">
+                    🤸‍♂️ Plank
+                </button>
+                <button class="quick-btn" onclick="quickAdd('Jumping Jacks', 50, 10, 80, 'Cardio', 'High')">
+                    🤸‍♀️ Jumping Jacks
+                </button>
+                <button class="quick-btn" onclick="quickAdd('Burpees', 15, 12, 120, 'Full Body', 'High')">
+                    🔥 Burpees
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function quickAdd(name, reps, duration, calories, category, intensity) {
+    // Fill form fields
+    document.getElementById('id_workout_name').value = name;
+    document.getElementById('id_reps').value = reps;
+    document.getElementById('id_duration_minutes').value = duration;
+    document.getElementById('id_calories_burned').value = calories;
+    document.getElementById('id_exercise_category').value = category;
+    document.getElementById('id_intensity').value = intensity;
+    
+    // Clear any previous errors
+    document.querySelectorAll('.field-errors').forEach(error => {
+        error.style.display = 'none';
+    });
+    
+    // Scroll to form
+    document.querySelector('.workout-form').scrollIntoView({ 
+        behavior: 'smooth' 
+    });
+}
+</script>
+{% endblock %}
