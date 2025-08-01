@@ -70,4 +70,5 @@ Font Awesome - Icon library
 Google Fonts - Typography
 
 ⭐ Star this repository if it helped you stay fit! ⭐
+
 📧 Contact: vigneshveeramani1608@gmail.com | 🐙 GitHub: @Vignesss16
