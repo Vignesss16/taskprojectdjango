@@ -31,26 +31,26 @@ Built with Django, Chart.js, and modern CSS animations to provide an exceptional
    
    Navigate to http://127.0.0.1:8000 and start tracking your fitness journey!
    
- **🎨 Design Highlights
+## 🎨 Design Highlights
 Glass Morphism Effects - Translucent containers with backdrop blur
 Vibrant Gradients - Pink (#f72585) → Purple (#7209b7) → Blue (#4361ee)
 Smooth Animations - Hover effects, transitions, and micro-interactions
 Modern Typography - Rajdhani font for athletic, professional look
 Responsive Grid - CSS Grid and Flexbox for perfect layouts
 
-**📊 Tech Stack
+## 📊 Tech Stack
 Backend: Django 4.2+, Python 3.8+, SQLite
 Frontend: HTML5, CSS3, JavaScript ES6
 Charts: Chart.js for interactive data visualization
 Icons: Font Awesome 6.0
 Fonts: Google Fonts (Rajdhani)
 
-**📌 Notes
+## 📌 Notes
 This is a complete fitness tracking solution with no external API dependencies
 Perfect for personal use, gym management, or fitness coaching
 Easily customizable color schemes and workout categories
 Mobile-optimized with touch-friendly interfaces
-**🚀 Future Enhancements
+## 🚀 Future Enhancements
  User authentication and multi-user support
  Workout plan templates and routines
  Social features and progress sharing
@@ -58,10 +58,10 @@ Mobile-optimized with touch-friendly interfaces
  Integration with fitness wearables
  Nutrition tracking module
  Export data to PDF/CSV
-**📄 License
+## 📄 License
 This project is open-source. Feel free to modify and use as per your needs. 
 
-**✨ Credits
+## ✨ Credits
 Built using:
 
 Django - Python web framework
