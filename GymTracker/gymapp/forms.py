@@ -27,7 +27,7 @@ class WorkoutLogForm(forms.ModelForm):
             }),
             'calories_burned': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Estimated calories burned',
+                'placeholder': 'Enter estimated calories burned',
                 'min': '1',
                 'id': 'id_calories_burned'
             }),
