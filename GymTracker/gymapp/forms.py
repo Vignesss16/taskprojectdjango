@@ -21,7 +21,7 @@ class WorkoutLogForm(forms.ModelForm):
             }),
             'duration_minutes': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Duration in minutes',
+                'placeholder': 'Enter workout duration in minutes',
                 'min': '1',
                 'id': 'id_duration_minutes'
             }),
